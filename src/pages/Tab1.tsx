@@ -5,6 +5,7 @@ import {
   IonDatetime,
   IonDatetimeButton,
   IonHeader,
+  IonIcon,
   IonModal,
   IonPage,
   IonTitle,
@@ -14,6 +15,7 @@ import ExploreContainer from "../components/ExploreContainer";
 import "./Tab1.css";
 import { useState } from "react";
 import dayjs from "dayjs";
+import { hourglassOutline, star } from "ionicons/icons";
 
 const Tab1: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -51,7 +53,12 @@ const Tab1: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab 1</IonTitle>
+          <IonTitle>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <img src="https://api.iconify.design/fluent-emoji-flat/small-airplane.svg?width=25" />
+              <div> | Sky Clock</div>
+            </div>
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -72,18 +79,28 @@ const Tab1: React.FC = () => {
           {/* <IonButton onClick={() => setShowModal(true)} expand="block">
             Enter Date and TIme
           </IonButton> */}
-          <IonDatetimeButton datetime="datetime"></IonDatetimeButton>
 
-          <IonButton onClick={handleCalculate} expand="block">
-            Calculate
-          </IonButton>
+          <div>Enter the date and time of your flight</div>
+
           <div
             style={{
               margin: "20px",
             }}
           >
-            {landingDate}
+            <IonDatetimeButton datetime="datetime" />
           </div>
+
+          <IonButton onClick={handleCalculate} expand="block" shape="round">
+            <IonIcon slot="start" icon={hourglassOutline} />
+            Calculate
+          </IonButton>
+          {/* <div
+            style={{
+              margin: "20px",
+            }}
+          >
+            {landingDate}
+          </div> */}
           <div
             style={{
               margin: 20,
@@ -99,7 +116,7 @@ const Tab1: React.FC = () => {
               id="datetime"
               onIonChange={(e) => {
                 // console.log(e.target.value);
-                setLandingDate(e?.target?.value);
+                setLandingDate(e.target.value);
               }}
             ></IonDatetime>
           </IonModal>
