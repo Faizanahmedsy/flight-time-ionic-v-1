@@ -1,0 +1,8 @@
+{
+  "name": "flight-time-ionic-v1",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite",
+  "id": "084314ee"
+}
