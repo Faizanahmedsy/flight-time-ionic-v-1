@@ -13,9 +13,39 @@ import {
 import ExploreContainer from "../components/ExploreContainer";
 import "./Tab1.css";
 import { useState } from "react";
+import dayjs from "dayjs";
 
 const Tab1: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
+  const [landingDate, setLandingDate] = useState("");
+
+  // const [landingTime, setLandingTime] = useState("");
+
+  const [remainingTime, setRemainingTime] = useState("");
+
+  const handleCalculate = () => {
+    const currentTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
+    const enteredTime = dayjs(landingDate);
+
+    console.log("currentTime: ", currentTime);
+    console.log("enteredTime: ", enteredTime.isValid());
+    console.log("enteredTime: ", enteredTime.format("YYYY-MM-DD HH:mm:ss"));
+    if (enteredTime.isValid()) {
+      const timeDifference = enteredTime.diff(currentTime, "minute");
+      console.log("timeDifference: ", timeDifference);
+      if (timeDifference > 0) {
+        const hours = Math.floor(timeDifference / 60);
+        const minutes = timeDifference % 60;
+        setRemainingTime(
+          `Time remaining for Flight: ${hours} hours ${minutes} minutes`
+        );
+      } else {
+        setRemainingTime("Invalid time or the flight has already landed.");
+      }
+    } else {
+      console.log("Please enter a valid time.");
+    }
+  };
 
   return (
     <IonPage>
@@ -33,6 +63,7 @@ const Tab1: React.FC = () => {
         <div
           style={{
             display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             height: "100%",
@@ -43,8 +74,34 @@ const Tab1: React.FC = () => {
           </IonButton> */}
           <IonDatetimeButton datetime="datetime"></IonDatetimeButton>
 
+          <IonButton onClick={handleCalculate} expand="block">
+            Calculate
+          </IonButton>
+          <div
+            style={{
+              margin: "20px",
+            }}
+          >
+            {landingDate}
+          </div>
+          <div
+            style={{
+              margin: 20,
+              fontSize: 12,
+              fontWeight: "bold",
+            }}
+          >
+            {remainingTime}
+          </div>
+
           <IonModal keepContentsMounted={true}>
-            <IonDatetime id="datetime"></IonDatetime>
+            <IonDatetime
+              id="datetime"
+              onIonChange={(e) => {
+                // console.log(e.target.value);
+                setLandingDate(e?.target?.value);
+              }}
+            ></IonDatetime>
           </IonModal>
         </div>
 
